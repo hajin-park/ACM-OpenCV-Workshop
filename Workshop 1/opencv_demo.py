@@ -10,7 +10,9 @@ cv2.waitKey()
 cv2.destroyAllWindows()
 
 # Process base image through template matching
-result = cv2.matchTemplate(haystack_img, needle_img, cv2.TM_CCOEFF_NORMED)
+matching_method = cv2.TM_CCOEFF_NORMED  # try TM_CCORR_NORMED too
+
+result = cv2.matchTemplate(haystack_img, needle_img, matching_method)
 
 cv2.imshow("Result", result)
 cv2.waitKey()
@@ -23,8 +25,11 @@ needle_img_height = needle_img.shape[0]
 needle_img_width = needle_img.shape[1]
 
 # Draw rectangle over the highest scored area
+rgb_color = (255, 0, 255)
+box_thickness = 3
+
 cv2.rectangle(haystack_img, max_loc,
-              (max_loc[0] + needle_img_width, max_loc[1] + needle_img_height), (255, 0, 255), 3)
+              (max_loc[0] + needle_img_width, max_loc[1] + needle_img_height), rgb_color, box_thickness)
 
 cv2.imshow("Screenshot", haystack_img)
 cv2.waitKey()
@@ -36,7 +41,7 @@ needle2_img_height = needle2_img.shape[0]
 needle2_img_width = needle2_img.shape[1]
 
 # Use tresholding to locate every location above a certain score
-result = cv2.matchTemplate(haystack_img, needle2_img, cv2.TM_CCOEFF_NORMED)
+result = cv2.matchTemplate(haystack_img, needle2_img, matching_method)
 cv2.imshow("Result", result)
 cv2.waitKey()
 cv2.destroyAllWindows()
@@ -62,8 +67,7 @@ rectangles, weights = cv2.groupRectangles(rectangles, 1, 0.2)
 
 # Draw rectangles on haystack image
 for (x, y, w, h) in rectangles:
-    cv2.rectangle(haystack_img, (x, y), (x+w, y+h), (255, 255, 0), 3
-                  )
+    cv2.rectangle(haystack_img, (x, y), (x+w, y+h), rgb_color, box_thickness)
 
 cv2.imshow("Screenshot", haystack_img)
 cv2.waitKey()
