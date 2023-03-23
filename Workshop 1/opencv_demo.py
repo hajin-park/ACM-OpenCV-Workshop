@@ -2,9 +2,11 @@ import cv2 as cv2
 import numpy as np
 
 # Display base images
+# cv2.imread(image_path, read_method)
 haystack_img = cv2.imread("haystack_img.png", cv2.IMREAD_UNCHANGED)
 needle_img = cv2.imread("needle_img.png", cv2.IMREAD_UNCHANGED)
 
+# cv2.imshow(display_name, display_image)
 cv2.imshow("Screenshot", haystack_img)
 cv2.waitKey()
 cv2.destroyAllWindows()
