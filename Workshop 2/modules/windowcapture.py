@@ -10,7 +10,6 @@ class WindowCapture:
     temp_sct = None
     window_rect = None
     sct_rect = None
-    rects = list()
     sct = mss()
 
     def __init__(self):
@@ -34,29 +33,25 @@ class WindowCapture:
         self.sct_x_loc = self.win_rect['left']+self.win_rect['width']
         self.sct_y_loc = self.win_rect['top']
 
-    def update(self, rects):
-        self.rects = rects
-
     def get_screenshot(self):
-        return np.array(self.sct.grab(self.sct_rect))
+        self.screenshot = np.array(self.sct.grab(self.sct_rect))
+        return self.screenshot
 
-    def draw_rectangles(self):
+    def draw_rectangles(self, rects):
         self.temp_sct = self.screenshot
-        for x, y, w, h in self.rects:
+        for x, y, w, h in rects:
             cv2.rectangle(
                 self.temp_sct,
                 (x, y),
-                (w, h),
+                (x + w, y + h),
                 (0, 0, 255),
-                3
+                2
             )
 
     def show_window(self, location) -> None:
         cv2.imshow('Game Window', self.temp_sct)
         cv2.moveWindow('Game Window', location[0], location[1])
-        cv2.waitKey(1)
 
-    def run(self):
-        self.screenshot = self.get_screenshot()
-        self.draw_rectangles()
+    def update(self, rects):
+        self.draw_rectangles(rects)
         self.show_window([self.sct_x_loc, self.sct_y_loc])
