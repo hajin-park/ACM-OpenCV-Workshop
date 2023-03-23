@@ -51,6 +51,7 @@ class WindowCapture:
     def show_window(self, location) -> None:
         cv2.imshow('Game Window', self.temp_sct)
         cv2.moveWindow('Game Window', location[0], location[1])
+        cv2.waitKey(1)
 
     def update(self, rects):
         self.draw_rectangles(rects)
