@@ -17,6 +17,8 @@ def main():
         #   Grab a new haystack frame
         haystack = sct.get_screenshot()
 
+        # Your code here
+
         #   Display the frame
         sct.update(rects)
 
